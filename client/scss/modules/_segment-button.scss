@@ -1,0 +1,29 @@
+.segment {
+  display: inline-flex;
+  border: $segment-border;
+  border-radius: 0.25rem;
+  margin-bottom: 1rem;
+
+  input[type='radio'] {
+    display: none;
+
+    &:checked {
+      + label {
+        background-color: $segment-color;
+        color: $white;
+      }
+    }
+  }
+  
+  &-button {
+    display: block;
+    border-right: $segment-border;
+    padding: 0.5rem 1rem;
+    text-align: center;
+    user-select:none;
+    cursor: pointer;
+    div:last-child & {
+      border-right: none;
+    }
+  }
+}
