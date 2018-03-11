@@ -6,7 +6,8 @@ export class Newslist extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      newsData: []
+      newsData: [],
+      expandedNewsId: null
     }
   }
 
@@ -30,6 +31,12 @@ export class Newslist extends React.Component {
       });
   }
 
+  readMore = (event, newsId) => {
+    this.setState({
+      expandedNewsId: newsId
+    });
+  }
+
   render() {
 
     const newsInList = this.state.newsData.map(newsDetails => {
@@ -41,7 +48,11 @@ export class Newslist extends React.Component {
           <div className="media-body">
             <h3 className="media-title">{newsDetails.header}</h3>
             <TagLink links={newsDetails.tags} />
-            <p>{newsDetails.content}</p>
+            {
+              newsDetails.content.length > 150 && newsDetails.id != this.state.expandedNewsId
+              ? <p>{newsDetails.content.slice(0, 150)}...<a onClick={event => this.readMore(event, newsDetails.id)}>read more</a></p>
+              : <p>{newsDetails.content}</p>
+            }
           </div>
         </section>
       );
