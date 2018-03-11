@@ -1,0 +1,26 @@
+.media {
+  display: flex;
+  background-color: $white;
+  box-shadow: 2px 2px #e0e0e0;
+  margin: 1rem 0;
+
+  &-figure {
+    width: 6rem;
+
+    img {
+      display: block;
+      width: 100%;
+    }
+  }
+
+  &-body {
+    margin-right: 0.65rem;
+    margin-left: 0.65rem;
+    flex: 1;
+  }
+
+  &-title{
+    margin-top: 0.25rem;
+    margin-bottom: 0.75rem;
+  }
+}
