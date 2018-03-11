@@ -6,6 +6,7 @@ export class Newslist extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      tag: '',
       page: 1,
       newsData: [],
       expandedNewsId: null
@@ -33,6 +34,34 @@ export class Newslist extends React.Component {
       });
   }
 
+  requestTagNews() {
+    console.log(this.state.tag);
+    const urlForNews = 'http://localhost:3000/api/?';
+    let queryString = '';
+
+    if (this.state.tag) {
+      queryString = `${urlForNews}tag=${this.state.tag}`;
+    }
+
+    fetch(queryString)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({
+          newsData: responseJson
+        })
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  readMore = (event, newsId) => {
+    this.setState({
+      expandedNewsId: newsId
+    });
+  }
+
   readMore = (event, newsId) => {
     this.setState({
       expandedNewsId: newsId
@@ -45,7 +74,18 @@ export class Newslist extends React.Component {
       page: +this.state.page + 1
     }, () => {
       this.requestNews()
-    })
+    });
+  }
+
+  filterTag = (tagName) => {
+    console.log("tagName");
+    console.log(tagName);
+
+    this.setState({
+      tag: tagName
+    }, () => {
+      this.requestTagNews()
+    });
   }
 
   render() {
@@ -58,7 +98,7 @@ export class Newslist extends React.Component {
           </figure>}
           <div className="media-body">
             <h3 className="media-title">{newsDetails.header}</h3>
-            <TagLink links={newsDetails.tags} />
+            <TagLink links={newsDetails.tags} filterHandler={this.filterTag} />
             {
               newsDetails.content.length > 150 && newsDetails.id != this.state.expandedNewsId
               ? <p>{newsDetails.content.slice(0, 150)}...<a onClick={event => this.readMore(event, newsDetails.id)}>read more</a></p>
@@ -71,7 +111,7 @@ export class Newslist extends React.Component {
 
     return (
       <main className="main">
-        <Segment />
+        <Segment filterHandler={this.filterTag} currentTag={this.state.tag} />
         {
           this.state.newsData.length
           ? <div>
