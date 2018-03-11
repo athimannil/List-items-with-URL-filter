@@ -6,6 +6,7 @@ export class Newslist extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      page: 1,
       newsData: [],
       expandedNewsId: null
     }
@@ -17,13 +18,14 @@ export class Newslist extends React.Component {
 
   requestNews () {
     const urlForNews = 'http://localhost:3000/api/';
+    let queryString = `?page=${this.state.page}`;
 
-    fetch(urlForNews)
+    fetch(`${urlForNews}${queryString}`)
       .then((response) => response.json())
       .then((responseJson) => {
         console.log(responseJson);
         this.setState({
-          newsData: responseJson
+          newsData: [...this.state.newsData, ...responseJson]
         })
       })
       .catch((error) => {
@@ -35,6 +37,15 @@ export class Newslist extends React.Component {
     this.setState({
       expandedNewsId: newsId
     });
+  }
+
+  loadMore = (event) => {
+    event.preventDefault();
+    this.setState({
+      page: +this.state.page + 1
+    }, () => {
+      this.requestNews()
+    })
   }
 
   render() {
@@ -63,7 +74,10 @@ export class Newslist extends React.Component {
         <Segment />
         {
           this.state.newsData.length
-          ? <div>{newsInList}</div>
+          ? <div>
+              {newsInList}
+              <a className="button load-more" onClick={this.loadMore}>Load more</a>
+            </div>
           : <p>Loading...</p>
         }
       </main>
