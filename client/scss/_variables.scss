@@ -2,8 +2,11 @@
 $primary-color: tomato;
 $white: #fff;
 $black: #000;
-
 $body-bgc: #eee;
+
+// Segment button
+$segment-color: $primary-color;
+$segment-border: 1px solid $segment-color;
 
 // Break points
 $screen-sm: 30rem;

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Segment } from '../segment/Segment';
 
 export class Newslist extends React.Component {
   constructor(props) {
@@ -46,6 +47,7 @@ export class Newslist extends React.Component {
 
     return (
       <main className="main">
+        <Segment />
         {
           this.state.newsData.length
           ? <div>{newsInList}</div>
