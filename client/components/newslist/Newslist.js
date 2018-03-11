@@ -111,7 +111,7 @@ export class Newslist extends React.Component {
 
     return (
       <main className="main">
-        <Segment filterHandler={this.filterTag} />
+        <Segment filterHandler={this.filterTag} currentTag={this.state.tag} />
         {
           this.state.newsData.length
           ? <div>
