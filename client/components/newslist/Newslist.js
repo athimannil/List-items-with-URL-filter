@@ -18,8 +18,16 @@ export class Newslist extends React.Component {
   }
 
   requestNews () {
+
     const urlForNews = 'http://localhost:3000/api/';
-    let queryString = `?page=${this.state.page}`;
+    let queryString = '?';
+
+    if (this.state.tag) {
+      queryString = `${queryString}tag=${this.state.tag}&`;
+    }
+    if (this.state.page) {
+      queryString = `${queryString}page=${this.state.page}`;
+    }
 
     fetch(`${urlForNews}${queryString}`)
       .then((response) => response.json())
