@@ -1,4 +1,5 @@
 import React from 'react';
+import { TagLink } from './../taglink/TagLink';
 import { Segment } from '../segment/Segment';
 
 export class Newslist extends React.Component {
@@ -39,6 +40,7 @@ export class Newslist extends React.Component {
           </figure>}
           <div className="media-body">
             <h3 className="media-title">{newsDetails.header}</h3>
+            <TagLink links={newsDetails.tags} />
             <p>{newsDetails.content}</p>
           </div>
         </section>
