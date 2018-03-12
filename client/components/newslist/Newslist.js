@@ -51,14 +51,14 @@ export class Newslist extends React.Component {
   }
 
   requestTagNews() {
-    const urlForNews = 'http://localhost:3000/api/?';
+    const urlForNews = 'http://localhost:3000/api/';
     let queryString = '';
 
     if (this.state.tag) {
-      queryString = `${urlForNews}tag=${this.state.tag}`;
+      queryString = `?tag=${this.state.tag}`;
     }
 
-    fetch(queryString)
+    fetch(`${urlForNews}${queryString}`)
       .then((response) => response.json())
       .then((responseJson) => {
         this.setState({
