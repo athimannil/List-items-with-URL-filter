@@ -14,11 +14,19 @@ export class Newslist extends React.Component {
   }
 
   componentDidMount() {
-    this.requestNews();
+    if(typeof this.props.match.params.Tag == "string"){
+      this.setState({
+        tag: this.props.match.params.Tag
+      }, () => {
+        this.requestTagNews()
+      });
+    } else {
+      console.log("I am here today");
+      this.requestTagNews()
+    }
   }
 
   requestNews () {
-
     const urlForNews = 'http://localhost:3000/api/';
     let queryString = '?';
 
@@ -43,18 +51,16 @@ export class Newslist extends React.Component {
   }
 
   requestTagNews() {
-    console.log(this.state.tag);
-    const urlForNews = 'http://localhost:3000/api/?';
+    const urlForNews = 'http://localhost:3000/api/';
     let queryString = '';
 
     if (this.state.tag) {
-      queryString = `${urlForNews}tag=${this.state.tag}`;
+      queryString = `?tag=${this.state.tag}`;
     }
 
-    fetch(queryString)
+    fetch(`${urlForNews}${queryString}`)
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
         this.setState({
           newsData: responseJson
         })
@@ -86,9 +92,7 @@ export class Newslist extends React.Component {
   }
 
   filterTag = (tagName) => {
-    console.log("tagName");
-    console.log(tagName);
-
+    this.props.history.push('/'+tagName);
     this.setState({
       tag: tagName
     }, () => {
